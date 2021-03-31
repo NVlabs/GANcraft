@@ -138,15 +138,18 @@
     <!-- Summary video -->
     <div class="container" style="max-width: 768px;">
         <h5 class="text-center">Summary Video (TBD)</h5>
+        <!--
         <div class="embed-responsive embed-responsive-16by9" style="margin: 0;">
             <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/rlCh6-2NfSg" allowfullscreen></iframe>
         </div>
         </br>
-
+        -->
         <h5 class="text-center">Presentation Video (TBD)</h5>
+        <!--
         <div class="embed-responsive embed-responsive-16by9" style="margin: 0;">
             <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/b2P39sS2kKo" allowfullscreen></iframe>
         </div>
+        -->
         <!-- <p class="text-center"><a href="https://www.youtube.com/watch?v=rlCh6-2NfSg" target="_blank">Previous video</a></p> -->
     </div>
 
@@ -177,27 +180,57 @@
             <div class="col-md-12">
                 <hr style="max-width: 768px;">
                 <h5 class="text-center">The "Why Don't You Just" Question</h5>
-                The most relevant prior work in this area is <a class="text-center" href="https://tcwang0509.github.io/vid2vid/" target="_blank">Video-to-Video Synthesis</a>, published at NeurIPS 2018. One of the major shortcomings of this work is that it fails to ensure long-term consistency in the output video. This is because it generates each frame only based on the past few generated frames and lacks knowledge of the structure of the 3D world being generated. Some of the issues are demonstrated in the video below, where we drive forward and then backward to the starting point.
+                <!-- One challenge of the world-to-world setting is the nonexistence of ground truth photorealistic renderings for a user-created block world. This suggests that indirect supervision must be used for training such a model. -->
+                As the ground truth photorealistic renderings for a user-created block world simply doesn't exist, we have to train such a mode with indirect supervision.
+                Some existing approaches are strong candidates. For example, one can use pix2pix methods such as MUNIT and SPADE, originally trained on 2D data only, to convert per-frame segmentation masks, which are projected from the block world, to realistic looking images. 
+                <!-- However, as these methods do not use 3D information, they are unlikely to produce view-consistent result. -->
+                One can also use wc-vid2vid, a 3D-aware method, to generate view-consistent images through 2D inpainting and 3D warping while using the voxel surfaces as the 3D geometry. As yet another alternative, one can train a NeRF-W, which learns a 3D radiance field from a non-photometric consistent image collection, and use the results from a pix2pix method as the training data.
+                
+                <!-- The most relevant prior work in this area is <a class="text-center" href="https://tcwang0509.github.io/vid2vid/" target="_blank">Video-to-Video Synthesis</a>, published at NeurIPS 2018. One of the major shortcomings of this work is that it fails to ensure long-term consistency in the output video. This is because it generates each frame only based on the past few generated frames and lacks knowledge of the structure of the 3D world being generated. Some of the issues are demonstrated in the video below, where we drive forward and then backward to the starting point. -->
 
                 <!-- However, while existing vid2vid methods can maintain short-term temporal consistency, they fail to ensure long-term consistency in the outputs. This is because they generate each frame only based on the past few frames. They lack knowledge of the 3D world being generated. In this work, we propose a framework for utilizing all past generated frames when synthesizing each frame. This is achieved by condensing the 3D world generated so far into a physically-grounded estimate of the current frame, which we call the <span style="background-color: #ffff00d5"><em><strong>guidance image</strong></em></span>. A novel Multi-SPADE module is also proposed to take advantage of the information stored in the guidance images. Extensive experimental results on several challenging datasets verify the effectiveness of our method in achieving world consistency – the output video is consistent within the entire generated 3D world. -->
             </div>
         </div>
         </br>
         <div class="row">
-            <div class="embed-responsive embed-responsive-4by1" style="margin: 0;">
-                <video controls class="embed-responsive-item">
-                    <source src="videos/fb_vid2vid.mp4" type="video/mp4">
+            <div class="col text-center" style="margin-right:0px;">MUNIT</div>
+            <div class="col text-center" style="margin-left:0px;">SPADE</div>
+            <div class="col text-center" style="margin-left:0px;">wc-vid2vid</div>
+            <div class="col text-center" style="margin-left:0px;">NSVF-W</div>
+            <div class="col text-center" style="margin-left:0px;"><b>GANcraft(ours)</b></div>
+        </div>
+        <div class="row">
+            <div class="embed-responsive" style="padding-bottom: 20%; margin: 0;">
+                <video controls autoplay muted loop class="embed-responsive-item">
+                    <source src="videos/survivalisland_2467_1.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="embed-responsive" style="padding-bottom: 20%; margin: 0;">
+                <video controls autoplay muted loop class="embed-responsive-item">
+                    <source src="videos/landscapep2_0685_3.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="embed-responsive" style="padding-bottom: 20%; margin: 0;">
+                <video controls autoplay muted loop class="embed-responsive-item">
+                    <source src="videos/s123456_0298_1.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="embed-responsive" style="padding-bottom: 20%; margin: 0;">
+                <video controls autoplay muted loop class="embed-responsive-item">
+                    <source src="videos/desert_2527_2.mp4" type="video/mp4">
                 </video>
             </div>
         </div>
         </br>
         <div class="row">
             <div class="col-md-12">
-                We can immediately notice a few issues:
+                Comparing the results from different methods, we can immediately notice a few issues:
                 <ul>
-                    <li>As highlighted at the end of the video, compared to the first frame, a lot of features are different in the last frame, even though we return back to the same viewpoint. In other words, the video is not world-consistent  over long timeframes.</li>
-                    <li>We observe flickering in the outputs, indicating a lack of fine short-term consistency and realism in features such as the trees, the road markings, etc.</li>
+                    <li>Pix2pix methods such as MUNIT and SPADE does not preserve viewpoint consistency, as these methods have no knowledge of the 3D geometry, and each frame is generated independently.</li>
+                    <li>Wc-vid2vid produces view-consistent video, but the image quality deterorates quickly with time due to error accumulation.</li>
+                    <li>NSVF-W (our implementation of NeRF-W with added voxel conditioning) produces view-consistent output as well, but the result looks dull and lacks fine detail. The NSVF-W is trained with the images produced by SPADE, which lack multi-view consistency. This has attributed to the low image fidelity.</li>
                 </ul>
+                In the last column, we present results from GANcraft, which are both view-consistent and high-quality.
             </div>
         </div>
 
