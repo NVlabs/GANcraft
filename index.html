@@ -56,6 +56,12 @@
             margin-left: auto; 
             margin-right: 0;
         }
+        .caption {
+            font-size: 0.9rem;
+            margin-top: 0;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
     </style>
   </head>
 
@@ -248,7 +254,7 @@
             <div class="col-md-12">
                 <hr style="max-width: 768px;">
                 <h5 class="text-center">Distribution Mismatch and Pseudo-ground truth</h5>
-                <p>Assume that we have a suitable voxel-conditional neural rendering model which is capable of representing the photorealistic world we want. We still need a way to train it without any ground truth posed images. Adversarial training has achieved some success in small scale, unconditional neural rendering tasks when the posed images are not available. However, for  GANcraft the problem is even more challenging. The block worlds from Minecraft usually have wildly different label distributions compared to the real world. Some scenes are completetly covered by snow. There are also scenes that cross multiple biomes within a small area. Moreover, it is impossible to match the sampled camera distribution to that of internet photos when randomly sampling views from the neural rendering model.</p>
+                <p>Assume that we have a suitable voxel-conditional neural rendering model which is capable of representing the photorealistic world. We still need a way to train it without any ground truth posed images. Adversarial training has achieved some success in small scale, unconditional neural rendering tasks when the posed images are not available. However, for  GANcraft the problem is even more challenging. The block worlds from Minecraft usually have wildly different label distributions compared to the real world. Some scenes are completetly covered by snow. There are also scenes that cross multiple biomes within a small area. Moreover, it is impossible to match the sampled camera distribution to that of internet photos when randomly sampling views from the neural rendering model.</p>
                 <!-- <p>Show ablation image. Shows that the problem is under-constrained and GAN loss alone does not work.</p> -->
             </div>
         </div>
@@ -256,25 +262,43 @@
             <div style="width: 3em;">
                 <p class="vert"><b>W/ pseudo-ground truth</b></p>
             </div>
-            <img src="images/gancraft/00041.png" style="width: 23%;margin-bottom: 8px;">
-            <img src="images/gancraft/00046.png" style="width: 23%;margin-bottom: 8px;">
+            <img src="images/gancraft/00041.png" style="width: 22%;margin-bottom: 8px;">
+            <img src="images/gancraft/00046.png" style="width: 22%;margin-bottom: 8px;">
             <!-- <img src="images/gancraft/00129.png" style="width: 20%;margin-bottom: 8px;"> -->
-            <img src="images/gancraft/00461.png" style="width: 23%;margin-bottom: 8px;">
-            <img src="images/gancraft/01069.png" style="width: 23%;margin-bottom: 8px;">
+            <img src="images/gancraft/00461.png" style="width: 22%;margin-bottom: 8px;">
+            <img src="images/gancraft/01069.png" style="width: 22%;margin-bottom: 8px;">
         </div>
         <div class="row">
             <div style="width: 3em;">
-                <p class="vert"><b>No pseudo-ground truth</b></p>
+                <p class="vert">No pseudo-ground truth</p>
             </div>
-            <img src="images/nopseudo/00041.png" style="width: 23%;margin-bottom: 8px;">
+            <img src="images/nopseudo/00041.png" style="width: 22%;margin-bottom: 8px;">
             <!-- <img src="images/nopseudo/00046.png" style="width: 20%;margin-bottom: 8px;"> -->
-            <img src="images/nopseudo/00129.png" style="width: 23%;margin-bottom: 8px;">
-            <img src="images/nopseudo/00461.png" style="width: 23%;margin-bottom: 8px;">
-            <img src="images/nopseudo/01069.png" style="width: 23%;margin-bottom: 8px;">
+            <img src="images/nopseudo/00129.png" style="width: 22%;margin-bottom: 8px;">
+            <img src="images/nopseudo/00461.png" style="width: 22%;margin-bottom: 8px;">
+            <img src="images/nopseudo/01069.png" style="width: 22%;margin-bottom: 8px;">
         </div>
         <div class="row">
             <div class="col-md-12">
-                <p>As shown in the second column, adversarial training along using internet photos leads to unrealistic results. As one of our main contributions, we discovered that incorporating pseudo-ground truth into the training significantly improves the result (first column). The pseudo-ground truths are the photorealistic images generated from segmentation masks using a pretrained SPADE model. As the segmentation masks are sampled from the block world, the pseudo-ground truths share the same labels and camera poses as the images generated from the same views. This not only reduced label and camera distribution mismatch, but also allows us to use stronger losses such as perceptual loss for faster and more stable training.</p>
+                <p>As shown in the second row, adversarial training along using internet photos leads to unrealistic results. As one of our main contributions, we discovered that incorporating pseudo-ground truth into the training significantly improves the result (first row).</p>
+                
+                <img class="mx-auto d-block" src="images/pgt_generation.svg" style="width: 70%;margin-bottom: 8px;">
+                <p class="caption text-center">Generating pseudo-ground truths</p>
+                
+                <p>The pseudo-ground truths are the photorealistic images generated from segmentation masks using a pretrained SPADE model. As the segmentation masks are sampled from the block world, the pseudo-ground truths share the same labels and camera poses as the images generated from the same views. This not only reduces label and camera distribution mismatch, but also allows us to use stronger losses such as perceptual loss for faster and more stable training.</p>
+            </div>
+        </div>
+        
+        
+        <!-- Hybird Voxel-conditional Neural Rendering -->
+        <div class="row">
+            <div class="col-md-12">
+                <hr style="max-width: 768px;">
+                <h5 class="text-center">Hybird Voxel-conditional Neural Rendering</h5>
+                <p>In GANcraft, we represent the photorealistic scene with a combination of 3D volumetric renderer and 2D image space renderer. We define a voxel-bounded neural radiance field: given a block world, we assign a learnable feature vector to every corner of the blocks, and use trilinear interpolation to define the location code at arbitrary locations within a voxel. A radiance field can then be defined implicitly using an MLP, which takes the location code, semantic lable and a shared style code as input and produces a point feature (radiance) and its volume density. Given camera parameters, we rendering the radiance field to obtain a 2D feature map, which is further converted to an image via a CNN.</p>
+                <img class="mx-auto d-block" src="images/pipeline_overview_w_skydome.svg" style="width: 100%;margin-bottom: 8px;">
+                <p class="caption text-center">The complete GANcraft architecture</p>
+                The two-stage architecture significantly improves the image quality while reducing the computation and memory footprint, as the radiance field can be modeled with a simpler MLP, which is the computational bottleneck for implicit volume based methods. The proposed architecture is capable of handling very large worlds. In our experiments, we use voxel grids with a size of 512&times;512&times;256, which is equivalent to 65 acres or 32 soccer fields in real world.
             </div>
         </div>
         
@@ -282,92 +306,24 @@
             <div class="col-md-12">
                 <hr style="max-width: 768px;">
                 <h5 class="text-center">Neural Sky Dome</h5>
-                <p>Sky dome, etc.</p>
+                <p>Previous voxel-based neural rendering approaches cannot model sky that is infinitely far away. However, sky is an indispensable ingredient for photorealism. In GANcraft, we use an additional MLP to model sky. The MLP converts the camera ray direction to a feature vector which has the same dimension as the point features from the radiance field. This feature vector serves as the totally opaque, final sample on a ray, blending into the pixel feature according to the residual transmittance of the ray.</p>
             </div>
         </div>
         
-        <!-- Introduction to guidance images. -->
-        <div class="row">
-            <div class="col-md-12">
-                <hr style="max-width: 768px;">
-                <h5 class="text-center">Hybird Neural Rendering</h5>
-                <p>Sky dome, etc.</p>
-            </div>
-        </div>
         
-        <!-- Introduction to guidance images. -->
+        <!-- Style -->
         <div class="row">
             <div class="col-md-12">
                 <hr style="max-width: 768px;">
-                <h5 class="text-center">Achieving consistency across views and time</h5>
-                <p>We believe that in order to produce realistic outputs that are consistent over time and viewpoint change, the method must be aware of the 3D structure of the world.
-                To achieve this, we introduce the concept of <span style="background-color: #ffff00d5"><em><strong>guidance images</strong></em></span>, which are physically-grounded estimates of what the next output frame should look like, based on how the world has been generated so far. As alluded to in their name, the role of these <span style="background-color: #ffff00d5"><em><strong>guidance images</strong></em></span> is to guide the generative model to produce colors and textures that respect previous outputs.</p>
-
-                <p>While prior works use optical flow to warp prior outputs, our guidance image differs from this in two aspects.
-                First, instead of using optical flow, the guidance image should be generated by using the motion field, or scene flow, which describes the true motion of each 3D point in the world. Second, the guidance image should aggregate information from all past viewpoints (and thus frames), instead of only the direct previous frames as in vid2vid. This makes sure that the generated frame is consistent with the entire history.</p>
-
-                <p>The figure below shows one method to generate guidance images by using point clouds and camera locations obtained by performing <a class="text-center" href="https://en.wikipedia.org/wiki/Structure_from_Motion#:~:text=Structure%20from%20Motion%20(SfM)%20is,computer%20vision%20and%20visual%20perception." target="_blank">Structure from Motion (SfM)</a> on an input video. In case of a game rendering engine, the ground truth scene flow can be obtained and used to generate guidance images.</p>
-
-
-                <img src="images/guidance.png" style="width: 100%;margin-bottom: 8px;">
-                <div class="text-center">
-                    <p style="font-size: 0.9rem; margin-bottom: 0;"><strong>Generating 3D-aware guidance images</strong></p>
-                    <p style="color: #808080; font-size: 0.85rem;">
-                        A camera(s) with known parameters and positions travels over time \( t = 0,\cdots,N \). At \( t = 0 \), the scene is textureless and an output image is generated for this viewpoint. The output image is then back-projected to the scene and a guidance image for a subsequent camera position is generated by projecting the partially textured point cloud. Using this <span style="background-color: #ffff00d5"><em><strong>guidance image</strong></em></span>, the generative method can produce an output that is consistent across views and smooth over time.
-                        The guidance image can be noisy, misaligned, and have holes, and the generation method should be robust to such inputs.
-                    </p>
+                <h5 class="text-center">Generating Images with Diversified Appearance</h5>
+                <p>The generation process of GANcraft is conditional on a style image. During training, we use the pseudo-ground truth as the style image, which helps explain away the inconsistency between the generated image and its corresponding pseudo-ground truth for the reconstruction loss. During evaluation, we can control the output style by providing GANcraft with different style images.</p>
+                <div class="embed-responsive embed-responsive-16by9" style="margin: 0;width: 100%;">
+                    <video controls muted loop class="embed-responsive-item">
+                        <source src="videos/interp_small.mp4" type="video/mp4">
+                    </video>
                 </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <p>As input to our model, we provide the guidance images along with the input labels such as semantic segmentation and depth maps. The inputs and generated outputs are visualized in the below video. As new 3D points become visible to the camera, colors are assigned to them by our image generator and the point cloud is updated. Note that the guidance images have holes and incorrect projections due to noisy point cloud information. Our method is robust to such noise and produces meaningful outputs.</p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col text-center"><b>Semantic Segmentation</b></div>
-            <div class="col text-center"><b>Depth</b></div>
-            <div class="col text-center"><span style="background-color: #ffff00d5"><strong>Guidance Image</strong></span></div>
-            <div class="col text-center"><b>Rendered Video</b></div>
-        </div>
-        <div class="row">
-            <div class="embed-responsive embed-responsive-8by1" style="margin: 0;">
-                <video controls loop class="embed-responsive-item">
-                    <source src="videos/what_is_guidance.mp4" type="video/mp4">
-                </video>
-            </div>
-        </div></br>
-
-        <div class="row">
-            <div class="col-md-12">
-                <p>Here, we show how the application of our method solves the issues with temporal consistency observed above with prior work. As the viewer returns back to the starting position, the produced output is very similar to that of the first image, respecting previously produced textures. The output images and transitions over time also look more realistic.</p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="embed-responsive embed-responsive-4by1" style="margin: 0;">
-                <video controls class="embed-responsive-item">
-                    <source src="videos/fb_guidance.mp4" type="video/mp4">
-                </video>
-            </div>
-        </div>
-        <br>
-
-        <!-- The network architecture. -->
-        <div class="row">
-            <div class="col-md-12">
-                <hr style="max-width: 768px;">
-                <h5 class="text-center">The complete network architecture</h5>
-
-                <p>Here, we visualize our generator architecture and all its components. The main component in our generator is the novel Multi-SPADE block, which is composed of multiple <a class="text-center" href="https://nvlabs.github.io/SPADE/" target="_blank">SPADE</a> layers. Each SPADE layer takes in a spatial conditioning map such as the semantic segmentation, or the optical flow-warped previous output, or the guidance image, and applies appropriate transformations on the intermediate feature maps so that the finally generated output respects the required constraints and looks realistic in the spatial and temporal domain.
-                </p>
-
-                <div class="text-center">
-                    <img src="images/overview.png" style="width: 100%;margin-bottom: 8px;">
-                    <p style="font-size: 0.9rem; margin-bottom: 0;"><strong>The overall architecture based on the Multi-SPADE module</strong></p>
-                    <p style="color: #808080; font-size: 0.85rem;">
-                        Each Multi-SPADE module takes input label features, warped previous frame features, and guidance images to modulate the features in each layer of our generator. The <span style="background-color: #ff88009c">labels decide the semantic content of the output frames</span>, the <span style="background-color: #00ff37a2">optical-flow warped previous frames ensure short-term consistency</span>, and the <span style="background-color: #ff00d469">guidance images ensure long-term consistency</span>.
-                    </p>
-                </div>
+                <p class="caption text-center">Style Control Example.</p>
+                <p>In the example above, we linearlly interpolate the style code across 6 different style images. </p>
             </div>
         </div>
     </div>
@@ -377,14 +333,11 @@
     <div class="container" style="max-width: 768px;">
         <div class="row">
             <div class="col-md-12">
-                <h2>Sample Video Generation Results</h2>
+                <h2>Additional Results</h2>
             </div>
         </div>
 
         <div style="width: 75%; margin: 0 auto;">
-            <div class="embed-responsive embed-responsive-16by9" style="width: 100%; margin: 0 auto;">
-                <iframe class="embed-responsive-item" style="padding: 0;" src="videos/interp_small.mp4" allowfullscreen></iframe>
-            </div></br>
             <div class="embed-responsive embed-responsive-2by1" style="width: 100%; margin: 0 auto;">
                 <iframe class="embed-responsive-item" style="padding: 0;" src="videos/stuttgart_01_06.mp4" allowfullscreen></iframe>
             </div></br>
@@ -393,19 +346,6 @@
             </div></br>
         </div>
 
-        <hr style="max-width: 768px;">
-        <p class="text-center" style="margin-bottom: 0;">
-            <h5 class="text-center">Consistent Multiview Generation</h5>
-            We can also simultaneously generate videos that are consistent across multiple viewpoints or users.
-            In this setting, the first user generates the first frame and appropriate colors are assigned to the world's 3D point cloud. The 3D point cloud is then splatted/projected to the viewpoint of the second user to be used as guidance and our network generates the final semantically consistent output image after resolving holes and errors. Colors are then assigned to the newly visible 3D points and the point cloud is updated.
-            Below are examples of stereo pair generations, with the point cloud being alternately updated by the left and right views.
-        </p>
-        <div class="embed-responsive embed-responsive-4by1" style="width: 100%; margin: 0 auto;">
-            <iframe class="embed-responsive-item" style="padding: 0;" src="videos/stereo_1.mp4" allowfullscreen></iframe>
-        </div></br>
-        <div class="embed-responsive embed-responsive-4by1" style="width: 100%; margin: 0 auto;">
-            <iframe class="embed-responsive-item" style="padding: 0;" src="videos/stereo_2.mp4" allowfullscreen></iframe>
-        </div>
     </div>
 
     <!-- Summary. -->
@@ -415,11 +355,12 @@
             <div class="col-md-12">
                 <h2>Summary</h2>
                 <ul>
-                    <li>Video-to-video synthesis is a powerful tool for converting semantic inputs to photorealistic videos.</li>
-                    <li>Existing vid2vid methods are unable to maintain long-term consistency (such as during loop closure) due to lack of the 3D structure of the world.</li>
-                    <li>We provide information about the 3D structure of the world using guidance images - projecting point clouds of the world colored so far (which can be noisy and incomplete) to the of the current camera view.</li>
-                    <li>We introduce a new architecture based on the Multi-SPADE module, which uses semantic labels, optical-flow warping, and guidance images as conditioning inputs.</li>
-                    <li>Our models improve upon the realism, short-term, and long-term consistency of generated videos.</li>
+                    <li>GANcraft is a powerful tool for converting semantic block worlds to photorealistic worlds without the need of ground truth data.</li>
+                    <li>Existing methods perform poorly on the task due to the lack of viewpoint consistency and photorealism.</li>
+                    <li>GANcraft performs well in this challenging world-to-world setting where the ground truth is unavailable and the distribution mismatch between a Minecraft world and internet photos is significant.</li>
+                    <li>We introduce a new training scheme which uses pseudo-ground truth. This improves the quality of the results significantly.</li>
+                    <li>We introduce a hybrid neural rendering pipeline which is able to represent large and complex scenes efficiently.</li>
+                    <li>We are able to control the appearance of the GANcraft results using style images.</li>
                 </ul>
             </div>
         </div>
@@ -435,11 +376,11 @@
         </div>
     <div class="code-box-copy"  style="font-size: 0.9rem !important; max-width: 768px; margin: 0 auto;">
         <button class="code-box-copy__btn" data-clipboard-target="#citation" title="Copy" style="opacity: 1;"></button>
-        <pre><code class="language-bib" style="font-size: 0.9rem;" id="citation">@inproceedings{mallya2020world,
-    title={World-Consistent Video-to-Video Synthesis},
-    author={Arun Mallya and Ting-Chun Wang and Karan Sapra and Ming-Yu Liu},
-    booktitle={Proceedings of the European Conference on Computer Vision},
-    year={2020}
+        <pre><code class="language-bib" style="font-size: 0.9rem;" id="citation">@inproceedings{tbd2021tbd,
+    title={GANcraft: Unsupervised 3D Neural Rendering of MinecraftWorlds},
+    author={Zekun Hao and Arun Mallya and Serge Belongie and Ming-Yu Liu},
+    booktitle={TBD TBD TBD TBD},
+    year={2021}
 }</code></pre>
     </div>
     </div>
