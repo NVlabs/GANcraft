@@ -129,7 +129,7 @@
      inkscape:pageshadow="2"
      inkscape:zoom="3.959798"
      inkscape:cx="191.12007"
-     inkscape:cy="162.15131"
+     inkscape:cy="172.25284"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      inkscape:document-rotation="0"
@@ -147,7 +147,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -3533,7 +3533,9 @@
        id="text1007"
        x="47.281952"
        y="50.699192"
-       style="stroke-width:0.105867">Voxel world</text>
+       style="stroke-width:0.105867"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'CMU Sans Serif';-inkscape-font-specification:'CMU Sans Serif Bold'"
+         id="tspan548">Voxel world</tspan></text>
     <path
        d="m 40.179982,14.19473 c -0.447287,2.320283 -3.79723,3.625409 -7.482453,2.915042"
        stroke="#000000"
@@ -3589,28 +3591,16 @@
        id="text1027"
        x="0.1809677"
        y="3.1649978"
-       style="stroke-width:0.105867">projected segmentation<tspan
-   font-family="Calibri, Calibri_MSFontService, sans-serif"
-   font-weight="400"
-   font-size="3.4936px"
-   x="1.7066883"
-   y="61.285866"
-   id="tspan1021"
-   style="stroke-width:0.0280106">pseudo</tspan><tspan
-   font-family="Calibri, Calibri_MSFontService, sans-serif"
-   font-weight="400"
-   font-size="3.4936px"
-   x="12.064301"
-   y="61.285866"
-   id="tspan1023"
-   style="stroke-width:0.0280106">-</tspan><tspan
-   font-family="Calibri, Calibri_MSFontService, sans-serif"
-   font-weight="400"
-   font-size="3.4936px"
-   x="13.114182"
-   y="61.285866"
-   id="tspan1025"
-   style="stroke-width:0.0280106">ground truth</tspan></text>
+       style="stroke-width:0.105867"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'CMU Sans Serif';-inkscape-font-specification:'CMU Sans Serif'"
+         id="tspan546">projected segmentation</tspan><tspan
+         font-family="Calibri, Calibri_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="3.4936px"
+         x="1.7066883"
+         y="61.285866"
+         id="tspan1021"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'CMU Sans Serif';-inkscape-font-specification:'CMU Sans Serif';stroke-width:0.0280106">pseudo-ground truth</tspan></text>
     <g
        clip-path="url(#clip1)"
        transform="matrix(1.9450589e-5,0,0,1.9450589e-5,5.9298509,5.1764672)"
@@ -3653,22 +3643,14 @@
        id="text1047"
        x="88.711334"
        y="3.0591323"
-       style="stroke-width:0.105867">projected segmentation<tspan
-   font-size="3.4936px"
-   x="90.764702"
-   y="60.968269"
-   id="tspan1041"
-   style="stroke-width:0.0280106">pseudo</tspan><tspan
-   font-size="3.4936px"
-   x="100.73824"
-   y="60.968269"
-   id="tspan1043"
-   style="stroke-width:0.0280106">-</tspan><tspan
-   font-size="3.4936px"
-   x="101.88074"
-   y="60.968269"
-   id="tspan1045"
-   style="stroke-width:0.0280106">ground truth</tspan></text>
+       style="stroke-width:0.105867"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'CMU Sans Serif';-inkscape-font-specification:'CMU Sans Serif'"
+         id="tspan544">projected segmentation</tspan><tspan
+         font-size="3.4936px"
+         x="90.764702"
+         y="60.968269"
+         id="tspan1041"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'CMU Sans Serif';-inkscape-font-specification:'CMU Sans Serif';stroke-width:0.0280106">pseudo-ground truth</tspan></text>
     <path
        d="M 114.97265,35.877838 H 95.069696 l 3.980586,-9.210411 h 11.941768 z"
        stroke="#000000"
@@ -3684,12 +3666,14 @@
        id="text1053"
        x="100.8839"
        y="30.266897"
-       style="stroke-width:0.105867">im2im<tspan
-   font-size="3.4936px"
-   x="97.687408"
-   y="34.395702"
-   id="tspan1051"
-   style="stroke-width:0.0280106">translation</tspan></text>
+       style="stroke-width:0.105867"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'CMU Sans Serif';-inkscape-font-specification:'CMU Sans Serif'"
+         id="tspan552">im2im</tspan><tspan
+         font-size="3.4936px"
+         x="97.687408"
+         y="34.395702"
+         id="tspan1051"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'CMU Sans Serif';-inkscape-font-specification:'CMU Sans Serif';stroke-width:0.0280106">translation</tspan></text>
     <g
        clip-path="url(#clip7)"
        transform="matrix(1.9450589e-5,0,0,1.9450589e-5,94.434496,5.1764672)"
@@ -3739,11 +3723,13 @@
        id="text1071"
        x="12.19833"
        y="30.161032"
-       style="stroke-width:0.105867">im2im<tspan
-   font-size="3.4936px"
-   x="9.0018463"
-   y="34.289837"
-   id="tspan1069"
-   style="stroke-width:0.0280106">translation</tspan></text>
+       style="stroke-width:0.105867"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'CMU Sans Serif';-inkscape-font-specification:'CMU Sans Serif'"
+         id="tspan550">im2im</tspan><tspan
+         font-size="3.4936px"
+         x="9.0018463"
+         y="34.289837"
+         id="tspan1069"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'CMU Sans Serif';-inkscape-font-specification:'CMU Sans Serif';stroke-width:0.0280106">translation</tspan></text>
   </g>
 </svg>

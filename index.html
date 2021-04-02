@@ -282,7 +282,7 @@
             <div class="col-md-12">
                 <p>As shown in the second row, adversarial training along using internet photos leads to unrealistic results. As one of our main contributions, we discovered that incorporating pseudo-ground truth into the training significantly improves the result (first row).</p>
 
-                <img class="mx-auto d-block" src="images/pgt_generation.svg" style="width: 70%;margin-bottom: 8px;">
+                <img class="mx-auto d-block" src="images/pgt_generation_optimized.svg" style="width: 70%;margin-bottom: 8px;">
                 <p class="caption text-center">Generating pseudo-ground truths</p>
 
                 <p>The pseudo-ground truths are the photorealistic images generated from segmentation masks using a pretrained SPADE model. As the segmentation masks are sampled from the block world, the pseudo-ground truths share the same labels and camera poses as the images generated from the same views. This not only reduces label and camera distribution mismatch, but also allows us to use stronger losses such as perceptual loss for faster and more stable training.</p>
@@ -296,7 +296,7 @@
                 <hr style="max-width: 768px;">
                 <h5 class="text-center">Hybird Voxel-conditional Neural Rendering</h5>
                 <p>In GANcraft, we represent the photorealistic scene with a combination of 3D volumetric renderer and 2D image space renderer. We define a voxel-bounded neural radiance field: given a block world, we assign a learnable feature vector to every corner of the blocks, and use trilinear interpolation to define the location code at arbitrary locations within a voxel. A radiance field can then be defined implicitly using an MLP, which takes the location code, semantic lable and a shared style code as input and produces a point feature (radiance) and its volume density. Given camera parameters, we rendering the radiance field to obtain a 2D feature map, which is further converted to an image via a CNN.</p>
-                <img class="mx-auto d-block" src="images/pipeline_overview_w_skydome.svg" style="width: 100%;margin-bottom: 8px;">
+                <img class="mx-auto d-block" src="images/pipeline_overview_w_skydome_optimized.svg" style="width: 100%;margin-bottom: 8px;">
                 <p class="caption text-center">The complete GANcraft architecture</p>
                 The two-stage architecture significantly improves the image quality while reducing the computation and memory footprint, as the radiance field can be modeled with a simpler MLP, which is the computational bottleneck for implicit volume based methods. The proposed architecture is capable of handling very large worlds. In our experiments, we use voxel grids with a size of 512&times;512&times;256, which is equivalent to 65 acres or 32 soccer fields in real world.
             </div>
