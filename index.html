@@ -2,7 +2,8 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
+    <!-- <meta charset="utf-8"> -->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -33,7 +34,7 @@
         }
         .embed-responsive-4by1 {
             padding-bottom: 25%;
-        }   
+        }
         .embed-responsive-6by1 {
             padding-bottom: 16.67%;
         }
@@ -53,7 +54,7 @@
             transform: rotate(180deg);
             writing-mode: vertical-rl;
             margin: 0;
-            margin-left: auto; 
+            margin-left: auto;
             margin-right: 0;
         }
         .caption {
@@ -71,32 +72,31 @@
 
       <section class="jumbotron text-center" style="padding: 2%; background-color: #e6e9ec;">
         <div class="container">
-          <img src="images/logo.png" style="width: 50%;margin-bottom: 8px;">
-          <h1 class="jumbotron-heading">GANcraft<br>Unsupervised 3D Neural Rendering of Minecraft Worlds</h1>
+          <img src="images/logo.png" style="width: 50%;margin-bottom: 8px; min-width: 350px;">
+          <h1 class="jumbotron-heading">Unsupervised 3D Neural Rendering of Minecraft Worlds</h1>
         </div>
 
         <div class="container" style="max-width: 768px;">
             <div class="row">
                 <div class="col-md">
-                    <h5 id="authors" class="text-center" style="margin: 0px;"><a class="text-center" href="http://www.cs.cornell.edu/~zekun/" target="_blank">Zekun Hao</a></h5>
+                    <h5 id="authors" class="text-center" style="margin: 0px;"><a class="text-center" href="http://www.cs.cornell.edu/~zekun/" target="_blank">Zekun Hao<span style="color: #76b900;"><sup>&lowast;</sup></span><span style="color: #B31B1B;"><sup>&dagger;</sup></span></a></h5>
                 </div>
                 <div class="col-md">
-                    <h5 id="authors" class="text-center" style="margin: 0px;"><a class="text-center" href="http://arunmallya.github.io/" target="_blank">Arun Mallya</a></h5>
+                    <h5 id="authors" class="text-center" style="margin: 0px;"><a class="text-center" href="http://arunmallya.github.io/" target="_blank">Arun Mallya<span style="color: #76b900;"><sup>&lowast;</sup></span></a></h5>
                 </div>
                 <div class="col-md">
-                    <h5 id="authors" class="text-center" style="margin: 0px;"><a class="text-center" href="http://blogs.cornell.edu/techfaculty/serge-belongie/" target="_blank">Serge Belongie</a></h5>
+                    <h5 id="authors" class="text-center" style="margin: 0px;"><a class="text-center" href="http://blogs.cornell.edu/techfaculty/serge-belongie/" target="_blank">Serge Belongie<span style="color: #B31B1B;"><sup>&dagger;</sup></span></a></h5>
                 </div>
                 <div class="col-md">
-                    <h5 id="authors" class="text-center" style="margin: 0px;"><a class="text-center" href="http://mingyuliu.net/" target="_blank">Ming-Yu Liu</a></h5>
+                    <h5 id="authors" class="text-center" style="margin: 0px;"><a class="text-center" href="http://mingyuliu.net/" target="_blank">Ming-Yu Liu<span style="color: #76b900;"><sup>&lowast;</sup></span></a></h5>
                 </div>
             </div>
-
-            <div class="row" style="margin-left: auto; margin-right: auto;width: 50%;">
+            <div class="row" style="margin-top:0.75%; margin-left: auto; margin-right: auto;width: 50%;">
                 <div class="col-md">
-                    <h5 style="color: #76b900; margin-bottom: 0;"><a class="text-center" href="https://vision.cornell.edu/se3/" target="_blank" style="color: #B31B1B;font-family: serif;">Cornell</a></h5>
+                    <h5 style="color: #76b900; margin-bottom: 0;"><a class="text-center" href="https://www.nvidia.com/en-us/research/" target="_blank" style="color: #76b900;"><b><sup>&lowast;</sup>NVIDIA</b></a></h5>
                 </div>
                 <div class="col-md">
-                    <h5 style="color: #76b900; margin-bottom: 0;"><a class="text-center" href="https://www.nvidia.com/en-us/research/" target="_blank" style="color: #76b900;"><b>NVIDIA</b></a></h5>
+                    <h5 style="color: #76b900; margin-bottom: 0;"><a class="text-center" href="https://vision.cornell.edu/se3/" target="_blank" style="color: #B31B1B;"><sup>&dagger;</sup>Cornell</a></h5>
                 </div>
             </div>
         </div>
@@ -114,7 +114,7 @@
                     <p>We present GANcraft, an unsupervised neural rendering framework for generating photorealistic images of large 3D block worlds such as those created in Minecraft. Our method takes a semantic block world as input, where each block is assigned a label such as dirt, grass, or water. We represent the world as a continuous volumetric function and train our model to render view-consistent photorealistic images from arbitrary viewpoints. In the absence of paired ground truth real images for the block world, we devise a training technique based on pseudo-ground truth and adversarial training. This stands in contrast to prior work on neural rendering for view synthesis, which requires ground truth images to estimate scene geometry and view-dependent appearance. In addition to camera pose, GANcraft allows user control over both scene semantics and style. Experimental results with comparison to strong baselines show the effectiveness of GANcraft on this novel task of photorealistic 3D block world synthesis.</p>
                 </div>
             </div>
-            <!-- 
+            <!--
             <div class="row">
                 <div class="col text-center"><b>Colorization of the world's 3D point cloud</b></div>
                 <div class="col text-center"><b>Simultaneously rendered 2D output</b></div>
@@ -136,7 +136,7 @@
             <div class="row">
                 <div class="col text-center "><p style="color: #808080; font-size: 0.85rem;">The input block worlds are shown as insets.</p></div>
             </div>
-            
+
         </div>
 
       </section>
@@ -196,11 +196,11 @@
                 <h5 class="text-center">The "Why Don't You Just" Question</h5>
                 <!-- One challenge of the world-to-world setting is the nonexistence of ground truth photorealistic renderings for a user-created block world. This suggests that indirect supervision must be used for training such a model. -->
                 As the ground truth photorealistic renderings for a user-created block world simply doesn't exist, we have to train such a mode with indirect supervision.
-                Some existing approaches are strong candidates. For example, one can use pix2pix methods such as MUNIT and SPADE, originally trained on 2D data only, to convert per-frame segmentation masks, which are projected from the block world, to realistic looking images. 
+                Some existing approaches are strong candidates. For example, one can use pix2pix methods such as MUNIT and SPADE, originally trained on 2D data only, to convert per-frame segmentation masks, which are projected from the block world, to realistic looking images.
                 <!-- However, as these methods do not use 3D information, they are unlikely to produce view-consistent result. -->
                 One can also use wc-vid2vid, a 3D-aware method, to generate view-consistent images through 2D inpainting and 3D warping while using the voxel surfaces as the 3D geometry.
                 As yet another alternative, one can train a NeRF-W, which learns a 3D radiance field from a non-photometric consistent, but posesd and 3D consistent image collection, and use the results from a pix2pix method, which are the data closest to the requirements that we can get, as the training data.
-                
+
                 <!-- The most relevant prior work in this area is <a class="text-center" href="https://tcwang0509.github.io/vid2vid/" target="_blank">Video-to-Video Synthesis</a>, published at NeurIPS 2018. One of the major shortcomings of this work is that it fails to ensure long-term consistency in the output video. This is because it generates each frame only based on the past few generated frames and lacks knowledge of the structure of the 3D world being generated. Some of the issues are demonstrated in the video below, where we drive forward and then backward to the starting point. -->
 
                 <!-- However, while existing vid2vid methods can maintain short-term temporal consistency, they fail to ensure long-term consistency in the outputs. This is because they generate each frame only based on the past few frames. They lack knowledge of the 3D world being generated. In this work, we propose a framework for utilizing all past generated frames when synthesizing each frame. This is achieved by condensing the 3D world generated so far into a physically-grounded estimate of the current frame, which we call the <span style="background-color: #ffff00d5"><em><strong>guidance image</strong></em></span>. A novel Multi-SPADE module is also proposed to take advantage of the information stored in the guidance images. Extensive experimental results on several challenging datasets verify the effectiveness of our method in achieving world consistency – the output video is consistent within the entire generated 3D world. -->
@@ -281,15 +281,15 @@
         <div class="row">
             <div class="col-md-12">
                 <p>As shown in the second row, adversarial training along using internet photos leads to unrealistic results. As one of our main contributions, we discovered that incorporating pseudo-ground truth into the training significantly improves the result (first row).</p>
-                
+
                 <img class="mx-auto d-block" src="images/pgt_generation.svg" style="width: 70%;margin-bottom: 8px;">
                 <p class="caption text-center">Generating pseudo-ground truths</p>
-                
+
                 <p>The pseudo-ground truths are the photorealistic images generated from segmentation masks using a pretrained SPADE model. As the segmentation masks are sampled from the block world, the pseudo-ground truths share the same labels and camera poses as the images generated from the same views. This not only reduces label and camera distribution mismatch, but also allows us to use stronger losses such as perceptual loss for faster and more stable training.</p>
             </div>
         </div>
-        
-        
+
+
         <!-- Hybird Voxel-conditional Neural Rendering -->
         <div class="row">
             <div class="col-md-12">
@@ -301,7 +301,7 @@
                 The two-stage architecture significantly improves the image quality while reducing the computation and memory footprint, as the radiance field can be modeled with a simpler MLP, which is the computational bottleneck for implicit volume based methods. The proposed architecture is capable of handling very large worlds. In our experiments, we use voxel grids with a size of 512&times;512&times;256, which is equivalent to 65 acres or 32 soccer fields in real world.
             </div>
         </div>
-        
+
         <div class="row">
             <div class="col-md-12">
                 <hr style="max-width: 768px;">
@@ -309,8 +309,8 @@
                 <p>Previous voxel-based neural rendering approaches cannot model sky that is infinitely far away. However, sky is an indispensable ingredient for photorealism. In GANcraft, we use an additional MLP to model sky. The MLP converts the camera ray direction to a feature vector which has the same dimension as the point features from the radiance field. This feature vector serves as the totally opaque, final sample on a ray, blending into the pixel feature according to the residual transmittance of the ray.</p>
             </div>
         </div>
-        
-        
+
+
         <!-- Style -->
         <div class="row">
             <div class="col-md-12">
