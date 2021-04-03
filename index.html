@@ -70,7 +70,7 @@
     <header>
     <main role="main">
 
-      <section class="jumbotron text-center" style="padding: 2%; background-color: #e6e9ec;">
+      <section class="jumbotron text-center" style="padding: 2%; padding-bottom: 1%; background-color: #e6e9ec;">
         <div class="container">
           <img src="images/logo.png" style="width: 50%;margin-bottom: 8px; min-width: 350px;">
           <h1 class="jumbotron-heading">Unsupervised 3D Neural Rendering of Minecraft Worlds</h1>
@@ -111,7 +111,14 @@
         <div class="container" style="max-width: 900px;">
             <div class="row">
                 <div class="col-md">
-                    <p>We present GANcraft, an unsupervised neural rendering framework for generating photorealistic images of large 3D block worlds such as those created in Minecraft. Our method takes a semantic block world as input, where each block is assigned a label such as dirt, grass, or water. We represent the world as a continuous volumetric function and train our model to render view-consistent photorealistic images from arbitrary viewpoints. In the absence of paired ground truth real images for the block world, we devise a training technique based on pseudo-ground truth and adversarial training. This stands in contrast to prior work on neural rendering for view synthesis, which requires ground truth images to estimate scene geometry and view-dependent appearance. In addition to camera pose, GANcraft allows user control over both scene semantics and style. Experimental results with comparison to strong baselines show the effectiveness of GANcraft on this novel task of photorealistic 3D block world synthesis.</p>
+                    <p>
+                        We present GANcraft, an unsupervised neural rendering framework for generating photorealistic images of large 3D block worlds such as those created in Minecraft. Our method takes a semantic block world as input, where each block is assigned a label such as dirt, grass, tree, sand, or water.
+                        We represent the world as a continuous volumetric function and train our model to render view-consistent photorealistic images from arbitrary viewpoints, in the absence of paired ground truth real images for the block world.
+                        <!-- , we devise a training technique based on pseudo-ground truth and adversarial training. -->
+                        <!-- This stands in contrast to prior work on neural rendering for view synthesis, which requires ground truth images to estimate scene geometry and view-dependent appearance. -->
+                        In addition to camera pose, GANcraft allows user control over both scene semantics and style.
+                        <!-- Experimental results with comparison to strong baselines show the effectiveness of GANcraft on this novel task of photorealistic 3D block world synthesis. -->
+                    </p>
                 </div>
             </div>
             <!--
@@ -134,7 +141,9 @@
                 </br>
             </div>
             <div class="row">
-                <div class="col text-center "><p style="color: #808080; font-size: 0.85rem;">The input block worlds are shown as insets.</p></div>
+                <div class="col text-center "><p style="color: #808080; font-size: 0.85rem; margin-bottom: 0;">
+                    Outputs from our model. The input block worlds are shown as insets.
+                </p></div>
             </div>
 
         </div>
@@ -175,8 +184,9 @@
                 <h2>Overview</h2>
 
                 <!-- What is the task of vid2vid? -->
-                <h5 class="text-center">What is the problem GANcraft trying to solve?</h5>
-                GANcraft aims at solving the world-to-world translation problem. Given a semantically labeled block world such as those from the popular game Minecraft, GANcraft is able to convert it to a new world which shares the same layout but with added photorealism. The new world can then be rendered from arbitrary viewpoints to produce images and videos that are both view consistent and photorealistic. GANcraft simplifies the process of 3D modeling of complex landscape scenes, which will otherwise require years of expertice. GANcraft essentially turns every Minecraft player into a 3D artist.
+                <h5 class="text-center">What exactly is GANcraft trying to solve?</h5>
+                GANcraft aims at solving the world-to-world translation problem. Given a semantically labeled block world such as those from the popular game Minecraft, GANcraft is able to convert it to a new world which shares the same layout but with added photorealism. The new world can then be rendered from arbitrary viewpoints to produce images and videos that are both view-consistent and photorealistic. GANcraft simplifies the process of 3D modeling of complex landscape scenes, which will otherwise require years of expertise.
+                <div class="text-center" style="color: #76b900;">GANcraft essentially turns every Minecraft player into a 3D artist!</div>
             </div>
         </div>
         </br>
@@ -193,13 +203,14 @@
         <div class="row">
             <div class="col-md-12">
                 <hr style="max-width: 768px;">
-                <h5 class="text-center">The "Why Don't You Just" Question</h5>
+                <h5 class="text-center">The "<i>Why don't you just use im2im translation?</i> " Question</h5>
                 <!-- One challenge of the world-to-world setting is the nonexistence of ground truth photorealistic renderings for a user-created block world. This suggests that indirect supervision must be used for training such a model. -->
-                As the ground truth photorealistic renderings for a user-created block world simply doesn't exist, we have to train such a mode with indirect supervision.
-                Some existing approaches are strong candidates. For example, one can use pix2pix methods such as MUNIT and SPADE, originally trained on 2D data only, to convert per-frame segmentation masks, which are projected from the block world, to realistic looking images.
+                As the ground truth photorealistic renderings for a user-created block world simply doesn't exist, we have to train models with indirect supervision.
+                Some existing approaches are strong candidates. For example, one can use image-to-image translation (im2im) methods such as <a href='https://arxiv.org/abs/1804.04732' target='_blank'>MUNIT</a> and <a href='https://nvlabs.github.io/SPADE/' target='_blank'>SPADE</a>, originally trained on 2D data only, to convert per-frame segmentation masks projected from the block world, to realistic looking images.
                 <!-- However, as these methods do not use 3D information, they are unlikely to produce view-consistent result. -->
-                One can also use wc-vid2vid, a 3D-aware method, to generate view-consistent images through 2D inpainting and 3D warping while using the voxel surfaces as the 3D geometry.
-                As yet another alternative, one can train a NeRF-W, which learns a 3D radiance field from a non-photometric consistent, but posesd and 3D consistent image collection, and use the results from a pix2pix method, which are the data closest to the requirements that we can get, as the training data.
+                One can also use <a href='https://nvlabs.github.io/wc-vid2vid/' target='_blank'>wc-vid2vid</a>, a 3D-aware method, to generate view-consistent images through 2D inpainting and 3D warping while using the voxel surfaces as the 3D geometry.
+                These models have to be trained on translating real segmentation maps to real images due to paired training data requirements, and then used on Minecraft to real translation.
+                As yet another alternative, one can train a <a href='https://nerf-w.github.io/' target='_blank'>NeRF-W</a>, which learns a 3D radiance field from a non-photometric consistent, but posed and 3D consistent image collection. This can be trained using predicted images from a im2im method (<i>pseudo-ground truth</i>, explained in the next section), which is the data closest to the requirements that we can get.
 
                 <!-- The most relevant prior work in this area is <a class="text-center" href="https://tcwang0509.github.io/vid2vid/" target="_blank">Video-to-Video Synthesis</a>, published at NeurIPS 2018. One of the major shortcomings of this work is that it fails to ensure long-term consistency in the output video. This is because it generates each frame only based on the past few generated frames and lacks knowledge of the structure of the 3D world being generated. Some of the issues are demonstrated in the video below, where we drive forward and then backward to the starting point. -->
 
@@ -208,9 +219,16 @@
         </div>
         </br>
         <div class="row">
-            <div class="col text-center" style="margin-right:0px;">MUNIT</div>
-            <div class="col text-center" style="margin-left:0px;">SPADE</div>
-            <div class="col text-center" style="margin-left:0px;">wc-vid2vid</div>
+            <div class="col text-center" style="margin-right:0px;"></div>
+            <div class="col text-center" style="margin-left:0px;"></div>
+            <div class="col text-center" style="margin-left:0px;"></div>
+            <div class="col text-center" style="margin-left:0px;">(<a href='https://lingjie0206.github.io/papers/NSVF/' target='_blank'>NSVF</a> + <a href='https://nerf-w.github.io/' target='_blank'>NeRF-W</a>)</div>
+            <div class="col text-center" style="margin-left:0px;"></div>
+        </div>
+        <div class="row">
+            <div class="col text-center" style="margin-right:0px;"><a href='https://arxiv.org/abs/1804.04732' target='_blank'>MUNIT</a></div>
+            <div class="col text-center" style="margin-left:0px;"><a href='https://nvlabs.github.io/SPADE/' target='_blank'>SPADE</a></div>
+            <div class="col text-center" style="margin-left:0px;"><a href='https://nvlabs.github.io/wc-vid2vid/' target='_blank'>wc-vid2vid</a></div>
             <div class="col text-center" style="margin-left:0px;">NSVF-W</div>
             <div class="col text-center" style="margin-left:0px;"><b>GANcraft(ours)</b></div>
         </div>
@@ -236,14 +254,23 @@
                 </video>
             </div>
         </div>
+        <div class="row">
+            <div class="col text-center" style="margin-right:0px;"><a href='https://arxiv.org/abs/1804.04732' target='_blank'>MUNIT</a></div>
+            <div class="col text-center" style="margin-left:0px;"><a href='https://nvlabs.github.io/SPADE/' target='_blank'>SPADE</a></div>
+            <div class="col text-center" style="margin-left:0px;"><a href='https://nvlabs.github.io/wc-vid2vid/' target='_blank'>wc-vid2vid</a></div>
+            <div class="col text-center" style="margin-left:0px;">NSVF-W</br>(<a href='https://lingjie0206.github.io/papers/NSVF/' target='_blank'>NSVF</a> + <a href='https://nerf-w.github.io/' target='_blank'>NeRF-W</a>)</div>
+            <div class="col text-center" style="margin-left:0px;"><b>GANcraft(ours)</b></div>
+        </div>
         </br>
         <div class="row">
             <div class="col-md-12">
                 Comparing the results from different methods, we can immediately notice a few issues:
                 <ul>
-                    <li>Pix2pix methods such as MUNIT and SPADE does not preserve viewpoint consistency, as these methods have no knowledge of the 3D geometry, and each frame is generated independently.</li>
-                    <li>Wc-vid2vid produces view-consistent video, but the image quality deterorates quickly with time due to error accumulation.</li>
-                    <li>NSVF-W (our implementation of NeRF-W with added voxel conditioning) produces view-consistent output as well, but the result looks dull and lacks fine detail. The NSVF-W is trained with images produced by SPADE, which lack multi-view consistency. This have attributed to the lower image fidelity.</li>
+                    <li>im2im methods such as <a href='https://arxiv.org/abs/1804.04732' target='_blank'>MUNIT</a> and <a href='https://nvlabs.github.io/SPADE/' target='_blank'>SPADE</a> does not preserve viewpoint consistency, as these methods have no knowledge of the 3D geometry, and each frame is generated independently.</li>
+                    <li><a href='https://nvlabs.github.io/wc-vid2vid/' target='_blank'>wc-vid2vid</a> produces view-consistent video, but the image quality deterorates quickly with time due to error accumulation from blocky geometry and the train-test domain gap.</li>
+                    <li>NSVF-W (our implementation of <a href='https://nerf-w.github.io/' target='_blank'>NeRF-W</a> with added <a href='https://lingjie0206.github.io/papers/NSVF/' target='_blank'>NSVF</a>-style voxel conditioning) produces view-consistent output as well, but the result looks dull and lacks fine detail.
+                        <!-- The NSVF-W is trained with images produced by SPADE, which lack multi-view consistency. This have attributed to the lower image fidelity. -->
+                    </li>
                 </ul>
                 In the last column, we present results from GANcraft, which are both view-consistent and high-quality. The use of neural rendering guarantees view-consistency, while the innovation in model architecture and training scheme leads to unprecedented photorealism.
             </div>
@@ -254,19 +281,9 @@
             <div class="col-md-12">
                 <hr style="max-width: 768px;">
                 <h5 class="text-center">Distribution Mismatch and Pseudo-ground truth</h5>
-                <p>Assume that we have a suitable voxel-conditional neural rendering model which is capable of representing the photorealistic world. We still need a way to train it without any ground truth posed images. Adversarial training has achieved some success in small scale, unconditional neural rendering tasks when the posed images are not available. However, for  GANcraft the problem is even more challenging. The block worlds from Minecraft usually have wildly different label distributions compared to the real world. Some scenes are completetly covered by snow. There are also scenes that cross multiple biomes within a small area. Moreover, it is impossible to match the sampled camera distribution to that of internet photos when randomly sampling views from the neural rendering model.</p>
+                <p>Assume that we have a suitable voxel-conditional neural rendering model which is capable of representing the photorealistic world. We still need a way to train it without any ground truth posed images. Adversarial training has achieved some success in small scale, unconditional neural rendering tasks when the posed images are not available. However, for  GANcraft the problem is even more challenging. The block worlds from Minecraft usually have wildly different label distributions compared to the real world. For example, some scenes are completetly covered by snow or sand or water. There are also scenes that cross multiple biomes within a small area. Moreover, it is impossible to match the sampled camera distribution to that of internet photos when randomly sampling views from the neural rendering model.</p>
                 <!-- <p>Show ablation image. Shows that the problem is under-constrained and GAN loss alone does not work.</p> -->
             </div>
-        </div>
-        <div class="row">
-            <div style="width: 3em;">
-                <p class="vert"><b>W/ pseudo-ground truth</b></p>
-            </div>
-            <img src="images/gancraft/00041.png" style="width: 22%;margin-bottom: 8px;">
-            <img src="images/gancraft/00046.png" style="width: 22%;margin-bottom: 8px;">
-            <!-- <img src="images/gancraft/00129.png" style="width: 20%;margin-bottom: 8px;"> -->
-            <img src="images/gancraft/00461.png" style="width: 22%;margin-bottom: 8px;">
-            <img src="images/gancraft/01069.png" style="width: 22%;margin-bottom: 8px;">
         </div>
         <div class="row">
             <div style="width: 3em;">
@@ -279,13 +296,28 @@
             <img src="images/nopseudo/01069.png" style="width: 22%;margin-bottom: 8px;">
         </div>
         <div class="row">
+            <div style="width: 3em;">
+                <p class="vert"><b>W/ pseudo-ground truth</b></p>
+            </div>
+            <img src="images/gancraft/00041.png" style="width: 22%;margin-bottom: 8px;">
+            <img src="images/gancraft/00046.png" style="width: 22%;margin-bottom: 8px;">
+            <!-- <img src="images/gancraft/00129.png" style="width: 20%;margin-bottom: 8px;"> -->
+            <img src="images/gancraft/00461.png" style="width: 22%;margin-bottom: 8px;">
+            <img src="images/gancraft/01069.png" style="width: 22%;margin-bottom: 8px;">
+        </div>
+
+        <div class="row">
             <div class="col-md-12">
-                <p>As shown in the second row, adversarial training along using internet photos leads to unrealistic results. As one of our main contributions, we discovered that incorporating pseudo-ground truth into the training significantly improves the result (first row).</p>
+                <p>
+                    As shown in the first row, adversarial training using internet photos leads to unrealistic results, due to the complexity of the task.
+                    Producing and using <i>pseudo-ground truths</i> for training is one of the main contributions of our work, and significantly improves the result (second row).
+                    <!-- As one of our main contributions, we discovered that incorporating pseudo-ground truth into the training  -->
+                </p>
 
                 <img class="mx-auto d-block" src="images/pgt_generation_optimized.svg" style="width: 70%;margin-bottom: 8px;">
                 <p class="caption text-center">Generating pseudo-ground truths</p>
 
-                <p>The pseudo-ground truths are the photorealistic images generated from segmentation masks using a pretrained SPADE model. As the segmentation masks are sampled from the block world, the pseudo-ground truths share the same labels and camera poses as the images generated from the same views. This not only reduces label and camera distribution mismatch, but also allows us to use stronger losses such as perceptual loss for faster and more stable training.</p>
+                <p>The pseudo-ground truths are the photorealistic images generated from segmentation masks using a pretrained <a href='https://nvlabs.github.io/SPADE/' target='_blank'>SPADE</a> model. As the segmentation masks are sampled from the block world, the pseudo-ground truths share the same labels and camera poses as the images generated from the same views. This not only reduces label and camera distribution mismatch, but also allows us to use stronger losses, such as the perceptual and L<sub>2</sub> loss, for faster and more stable training.</p>
             </div>
         </div>
 
@@ -295,10 +327,10 @@
             <div class="col-md-12">
                 <hr style="max-width: 768px;">
                 <h5 class="text-center">Hybird Voxel-conditional Neural Rendering</h5>
-                <p>In GANcraft, we represent the photorealistic scene with a combination of 3D volumetric renderer and 2D image space renderer. We define a voxel-bounded neural radiance field: given a block world, we assign a learnable feature vector to every corner of the blocks, and use trilinear interpolation to define the location code at arbitrary locations within a voxel. A radiance field can then be defined implicitly using an MLP, which takes the location code, semantic lable and a shared style code as input and produces a point feature (radiance) and its volume density. Given camera parameters, we rendering the radiance field to obtain a 2D feature map, which is further converted to an image via a CNN.</p>
+                <p>In GANcraft, we represent the photorealistic scene with a combination of 3D volumetric renderer and 2D image space renderer. We define a voxel-bounded neural radiance field: given a block world, we assign a learnable feature vector to every corner of the blocks, and use trilinear interpolation to define the location code at arbitrary locations within a voxel. A radiance field can then be defined implicitly using an MLP, which takes the location code, semantic label, and a shared style code as input and produces a point feature (similar to radiance) and its volume density. Given camera parameters, we render the radiance field to obtain a 2D feature map, which is converted to an image via a CNN.</p>
                 <img class="mx-auto d-block" src="images/pipeline_overview_w_skydome_optimized.svg" style="width: 100%;margin-bottom: 8px;">
                 <p class="caption text-center">The complete GANcraft architecture</p>
-                The two-stage architecture significantly improves the image quality while reducing the computation and memory footprint, as the radiance field can be modeled with a simpler MLP, which is the computational bottleneck for implicit volume based methods. The proposed architecture is capable of handling very large worlds. In our experiments, we use voxel grids with a size of 512&times;512&times;256, which is equivalent to 65 acres or 32 soccer fields in real world.
+                The two-stage architecture significantly improves the image quality while reducing the computation and memory footprint, as the radiance field can be modeled with a simpler MLP, which is the computational bottleneck for implicit volume based methods. The proposed architecture is capable of handling very large worlds. In our experiments, we use voxel grids with a size of 512&times;512&times;256, which is equivalent to 65 acres or 32 soccer fields in the real world.
             </div>
         </div>
 
@@ -316,14 +348,14 @@
             <div class="col-md-12">
                 <hr style="max-width: 768px;">
                 <h5 class="text-center">Generating Images with Diversified Appearance</h5>
-                <p>The generation process of GANcraft is conditional on a style image. During training, we use the pseudo-ground truth as the style image, which helps explain away the inconsistency between the generated image and its corresponding pseudo-ground truth for the reconstruction loss. During evaluation, we can control the output style by providing GANcraft with different style images.</p>
+                <p>The generation process of GANcraft is conditional on a style image. During training, we use the pseudo-ground truth as the style image, which helps explain away the inconsistency between the generated image and its corresponding pseudo-ground truth for the reconstruction loss. During evaluation, we can control the output style by providing GANcraft with different style images. In the example below, we linearly interpolate the style code across 6 different style images.</p>
                 <div class="embed-responsive embed-responsive-16by9" style="margin: 0;width: 100%;">
-                    <video controls muted loop class="embed-responsive-item">
+                    <video  controls autoplay muted loop class="embed-responsive-item">
                         <source src="videos/interp_small.mp4" type="video/mp4">
                     </video>
                 </div>
-                <p class="caption text-center">Style Control Example.</p>
-                <p>In the example above, we linearlly interpolate the style code across 6 different style images. </p>
+                <p class="caption text-center">Interpolation between multiple styles</p>
+
             </div>
         </div>
     </div>
@@ -355,7 +387,7 @@
             <div class="col-md-12">
                 <h2>Summary</h2>
                 <ul>
-                    <li>GANcraft is a powerful tool for converting semantic block worlds to photorealistic worlds without the need of ground truth data.</li>
+                    <li>GANcraft is a powerful tool for converting semantic block worlds to photorealistic worlds without the need for ground truth data.</li>
                     <li>Existing methods perform poorly on the task due to the lack of viewpoint consistency and photorealism.</li>
                     <li>GANcraft performs well in this challenging world-to-world setting where the ground truth is unavailable and the distribution mismatch between a Minecraft world and internet photos is significant.</li>
                     <li>We introduce a new training scheme which uses pseudo-ground truth. This improves the quality of the results significantly.</li>
@@ -377,7 +409,7 @@
     <div class="code-box-copy"  style="font-size: 0.9rem !important; max-width: 768px; margin: 0 auto;">
         <button class="code-box-copy__btn" data-clipboard-target="#citation" title="Copy" style="opacity: 1;"></button>
         <pre><code class="language-bib" style="font-size: 0.9rem;" id="citation">@inproceedings{tbd2021tbd,
-    title={GANcraft: Unsupervised 3D Neural Rendering of MinecraftWorlds},
+    title={GANcraft: Unsupervised 3D Neural Rendering of Minecraft Worlds},
     author={Zekun Hao and Arun Mallya and Serge Belongie and Ming-Yu Liu},
     booktitle={TBD TBD TBD TBD},
     year={2021}
