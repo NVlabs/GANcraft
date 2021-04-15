@@ -1,0 +1,520 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- <meta charset="utf-8"> -->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="images/favicon.ico">
+
+    <title>GANcraft: Unsupervised 3D Neural Rendering of Minecraft Worlds</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro">
+    <link rel="dns-prefetch" href="//cdn.jsdelivr.net" />
+    <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/gh/jablonczay/code-box-copy/code-box-copy/css/code-box-copy.min.css" rel="stylesheet" />
+
+    <style>
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            padding-bottom: 50px;
+        }
+        hr {
+            background: #80808083;
+        }
+        .embed-responsive-2by1 {
+            padding-bottom: 50%;
+        }
+        .embed-responsive-4by1 {
+            padding-bottom: 25%;
+        }
+        .embed-responsive-6by1 {
+            padding-bottom: 16.67%;
+        }
+        .embed-responsive-8by1 {
+            padding-bottom: 12.50%;
+        }
+        .embed-responsive-teaser {
+            padding-bottom: 29%;
+        }
+        .float-button {
+            position: fixed;
+            right: 1%;
+            z-index: 9999;
+        }
+        .vert {
+            transform-origin: 50% 50%;
+            transform: rotate(180deg);
+            writing-mode: vertical-rl;
+            margin: 0;
+            margin-left: auto;
+            margin-right: 0;
+        }
+        .caption {
+            font-size: 0.9rem;
+            margin-top: 0;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .carousel .carousel-indicators li {
+            width: 10px;
+            height: 10px;
+            border-radius: 100%;
+        }
+        .carousel .carousel-indicators { visibility: hidden; }
+        .carousel:hover .carousel-indicators { visibility: visible; }
+        
+        .w-85 {
+            width: 85%!important;
+        }
+        /*#videoGallery {
+            margin-left: 50px;
+            margin-right: 50px;
+        }*/
+        .carousel-control-prev,
+        .carousel-control-next{
+            width: 7%;
+            filter: invert(100%);
+        }
+
+    </style>
+  </head>
+
+  <body>
+    <header>
+    <main role="main">
+
+      <section class="jumbotron text-center" style="padding: 2%; padding-bottom: 1%; background-color: #e6e9ec;">
+        <div class="container">
+          <img src="images/logo.png" style="width: 50%;margin-bottom: 8px; min-width: 350px;">
+          <h1 class="jumbotron-heading">Unsupervised 3D Neural Rendering of Minecraft Worlds</h1>
+        </div>
+
+        <div class="container" style="max-width: 768px;">
+            <div class="row">
+                <div class="col-md">
+                    <h5 id="authors" class="text-center" style="margin: 0px;"><a class="text-center" href="http://www.cs.cornell.edu/~zekun/" target="_blank">Zekun Hao<span style="color: #76b900;"><sup>&lowast;</sup></span><span style="color: #B31B1B;"><sup>&dagger;</sup></span></a></h5>
+                </div>
+                <div class="col-md">
+                    <h5 id="authors" class="text-center" style="margin: 0px;"><a class="text-center" href="http://arunmallya.github.io/" target="_blank">Arun Mallya<span style="color: #76b900;"><sup>&lowast;</sup></span></a></h5>
+                </div>
+                <div class="col-md">
+                    <h5 id="authors" class="text-center" style="margin: 0px;"><a class="text-center" href="http://blogs.cornell.edu/techfaculty/serge-belongie/" target="_blank">Serge Belongie<span style="color: #B31B1B;"><sup>&dagger;</sup></span></a></h5>
+                </div>
+                <div class="col-md">
+                    <h5 id="authors" class="text-center" style="margin: 0px;"><a class="text-center" href="http://mingyuliu.net/" target="_blank">Ming-Yu Liu<span style="color: #76b900;"><sup>&lowast;</sup></span></a></h5>
+                </div>
+            </div>
+            <div class="row" style="margin-top:0.75%; margin-left: auto; margin-right: auto;width: 50%;">
+                <div class="col-md">
+                    <h5 style="color: #76b900; margin-bottom: 0;"><a class="text-center" href="https://www.nvidia.com/en-us/research/" target="_blank" style="color: #76b900;"><b><sup>&lowast;</sup>NVIDIA</b></a></h5>
+                </div>
+                <div class="col-md">
+                    <h5 style="color: #76b900; margin-bottom: 0;"><a class="text-center" href="https://vision.cornell.edu/se3/" target="_blank" style="color: #B31B1B;"><sup>&dagger;</sup>Cornell</a></h5>
+                </div>
+            </div>
+        </div>
+
+        <div class="buttons">
+            <a href="#top" target="_blank" class="btn btn-primary my-2">Paper (arxiv)</a>
+            <!-- <a href="#top" target="_blank" class="btn btn-primary my-2">Paper (embedded videos)</a> -->
+            <a href="https://github.com/NVlabs/imaginaire" target="_blank" class="btn btn-secondary my-2">Code (GitHub, coming soon)</a>
+          </p>
+        </div>
+
+        <div class="container" style="max-width: 900px;">
+            <div class="row">
+                <div class="col-md">
+                    <p>
+                        We present GANcraft, an unsupervised neural rendering framework for generating photorealistic images of large 3D block worlds such as those created in Minecraft. Our method takes a semantic block world as input, where each block is assigned a label such as dirt, grass, tree, sand, or water.
+                        We represent the world as a continuous volumetric function and train our model to render view-consistent photorealistic images from arbitrary viewpoints, in the absence of paired ground truth real images for the block world.
+                        In addition to camera pose, GANcraft allows user control over both scene semantics and style.
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="embed-responsive embed-responsive-teaser" style="margin: 0;width: 50%;padding-bottom: 25%;">
+                    <video controls autoplay muted loop class="embed-responsive-item">
+                        <source src="videos/0366_3.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="embed-responsive embed-responsive-teaser" style="margin: 0;width: 50%;padding-bottom: 25%;">
+                    <video controls autoplay muted loop class="embed-responsive-item">
+                        <source src="videos/3117_2.mp4" type="video/mp4">
+                    </video>
+                </div>
+                </br>
+            </div>
+            <div class="row">
+                <div class="col text-center "><p style="color: #808080; font-size: 0.85rem; margin-bottom: 0;">
+                    Outputs from our model. The input block worlds are shown as insets.
+                </p></div>
+            </div>
+
+        </div>
+
+      </section>
+    </main>
+
+    <!-- TL;DR floating button -->
+    <div class="float-button">
+        <p class="float-right">
+            <a href="#Summary">TL;DR</a>
+        </p>
+    </div>
+
+    <!-- Summary video -->
+    <div class="container" style="max-width: 768px;">
+        <h5 class="text-center">Summary Video</h5>
+        <div class="embed-responsive embed-responsive-16by9" style="margin: 0;">
+            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/1Hky092CGFQ" allowfullscreen></iframe>
+        </div>
+        </br>
+    </div>
+
+    <!-- Overview -->
+    <hr style="max-width: 768px;">
+    <div class="container" style="max-width: 768px;">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Overview</h2>
+                <!-- What is the task of vid2vid? -->
+                <h5 class="text-center">What exactly is GANcraft trying to solve?</h5>
+                GANcraft aims at solving the world-to-world translation problem. Given a semantically labeled block world such as those from the popular game Minecraft, GANcraft is able to convert it to a new world which shares the same layout but with added photorealism. The new world can then be rendered from arbitrary viewpoints to produce images and videos that are both view-consistent and photorealistic. GANcraft simplifies the process of 3D modeling of complex landscape scenes, which will otherwise require years of expertise.
+                <div class="text-center" style="color: #76b900;">GANcraft essentially turns every Minecraft player into a 3D artist!</div>
+            </div>
+        </div>
+        </br>
+        <div class="row">
+            <div class="col text-center" style="margin-right:50px;"><b>Semantically Labeled Block World</b></div>
+            <div class="col text-center" style="margin-left:70px;"><b>Photorealistic Rendering</b></div>
+        </div>
+        <div class="row">
+            <img src="images/vox2img.png" style="width: 100%;margin-bottom: 8px;">
+        </div>
+
+
+        <!-- Issues with prior work. -->
+        <div class="row">
+            <div class="col-md-12">
+                <hr style="max-width: 768px;">
+                <h5 class="text-center">The "<i>Why don't you just use im2im translation?</i> " Question</h5>
+                As the ground truth photorealistic renderings for a user-created block world simply doesn't exist, we have to train models with indirect supervision.
+                Some existing approaches are strong candidates. For example, one can use image-to-image translation (im2im) methods such as <a href='https://arxiv.org/abs/1804.04732' target='_blank'>MUNIT</a> and <a href='https://nvlabs.github.io/SPADE/' target='_blank'>SPADE</a>, originally trained on 2D data only, to convert per-frame segmentation masks projected from the block world, to realistic looking images.
+                One can also use <a href='https://nvlabs.github.io/wc-vid2vid/' target='_blank'>wc-vid2vid</a>, a 3D-aware method, to generate view-consistent images through 2D inpainting and 3D warping while using the voxel surfaces as the 3D geometry.
+                These models have to be trained on translating real segmentation maps to real images due to paired training data requirements, and then used on Minecraft to real translation.
+                As yet another alternative, one can train a <a href='https://nerf-w.github.io/' target='_blank'>NeRF-W</a>, which learns a 3D radiance field from a non-photometric consistent, but posed and 3D consistent image collection. This can be trained using predicted images from a im2im method (<i>pseudo-ground truth</i>, explained in the next section), which is the data closest to the requirements that we can get.
+            </div>
+        </div>
+        </br>
+        <div class="row">
+            <div class="col text-center" style="margin-right:0px;"></div>
+            <div class="col text-center" style="margin-left:0px;"></div>
+            <div class="col text-center" style="margin-left:0px;"></div>
+            <div class="col text-center" style="margin-left:0px;">(<a href='https://lingjie0206.github.io/papers/NSVF/' target='_blank'>NSVF</a> + <a href='https://nerf-w.github.io/' target='_blank'>NeRF-W</a>)</div>
+            <div class="col text-center" style="margin-left:0px;"></div>
+        </div>
+        <div class="row">
+            <div class="col text-center" style="margin-right:0px;"><a href='https://arxiv.org/abs/1804.04732' target='_blank'>MUNIT</a></div>
+            <div class="col text-center" style="margin-left:0px;"><a href='https://nvlabs.github.io/SPADE/' target='_blank'>SPADE</a></div>
+            <div class="col text-center" style="margin-left:0px;"><a href='https://nvlabs.github.io/wc-vid2vid/' target='_blank'>wc-vid2vid</a></div>
+            <div class="col text-center" style="margin-left:0px;">NSVF-W</div>
+            <div class="col text-center" style="margin-left:0px;"><b>GANcraft(ours)</b></div>
+        </div>
+        <div class="row">
+            <div class="embed-responsive" style="padding-bottom: 20%; margin: 0;">
+                <video controls autoplay muted loop class="embed-responsive-item">
+                    <source src="videos/survivalisland_2467_1.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="embed-responsive" style="padding-bottom: 20%; margin: 0;">
+                <video controls autoplay muted loop class="embed-responsive-item">
+                    <source src="videos/landscapep2_0685_3.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="embed-responsive" style="padding-bottom: 20%; margin: 0;">
+                <video controls autoplay muted loop class="embed-responsive-item">
+                    <source src="videos/s123456_0298_1.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="embed-responsive" style="padding-bottom: 20%; margin: 0;">
+                <video controls autoplay muted loop class="embed-responsive-item">
+                    <source src="videos/desert_2527_2.mp4" type="video/mp4">
+                </video>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-center" style="margin-right:0px;"><a href='https://arxiv.org/abs/1804.04732' target='_blank'>MUNIT</a></div>
+            <div class="col text-center" style="margin-left:0px;"><a href='https://nvlabs.github.io/SPADE/' target='_blank'>SPADE</a></div>
+            <div class="col text-center" style="margin-left:0px;"><a href='https://nvlabs.github.io/wc-vid2vid/' target='_blank'>wc-vid2vid</a></div>
+            <div class="col text-center" style="margin-left:0px;">NSVF-W</br>(<a href='https://lingjie0206.github.io/papers/NSVF/' target='_blank'>NSVF</a> + <a href='https://nerf-w.github.io/' target='_blank'>NeRF-W</a>)</div>
+            <div class="col text-center" style="margin-left:0px;"><b>GANcraft(ours)</b></div>
+        </div>
+        </br>
+        <div class="row">
+            <div class="col-md-12">
+                Comparing the results from different methods, we can immediately notice a few issues:
+                <ul>
+                    <li>im2im methods such as <a href='https://arxiv.org/abs/1804.04732' target='_blank'>MUNIT</a> and <a href='https://nvlabs.github.io/SPADE/' target='_blank'>SPADE</a> does not preserve viewpoint consistency, as these methods have no knowledge of the 3D geometry, and each frame is generated independently.</li>
+                    <li><a href='https://nvlabs.github.io/wc-vid2vid/' target='_blank'>wc-vid2vid</a> produces view-consistent video, but the image quality deterorates quickly with time due to error accumulation from blocky geometry and the train-test domain gap.</li>
+                    <li>NSVF-W (our implementation of <a href='https://nerf-w.github.io/' target='_blank'>NeRF-W</a> with added <a href='https://lingjie0206.github.io/papers/NSVF/' target='_blank'>NSVF</a>-style voxel conditioning) produces view-consistent output as well, but the result looks dull and lacks fine detail.
+                    </li>
+                </ul>
+                In the last column, we present results from GANcraft, which are both view-consistent and high-quality. The use of neural rendering guarantees view-consistency, while the innovation in model architecture and training scheme leads to unprecedented photorealism.
+            </div>
+        </div>
+
+        <!-- Training with Pseudo-ground truth. -->
+        <div class="row">
+            <div class="col-md-12">
+                <hr style="max-width: 768px;">
+                <h5 class="text-center">Distribution Mismatch and Pseudo-ground truth</h5>
+                <p>Assume that we have a suitable voxel-conditional neural rendering model which is capable of representing the photorealistic world. We still need a way to train it without any ground truth posed images. Adversarial training has achieved some success in small scale, unconditional neural rendering tasks when the posed images are not available. However, for  GANcraft the problem is even more challenging. The block worlds from Minecraft usually have wildly different label distributions compared to the real world. For example, some scenes are completetly covered by snow or sand or water. There are also scenes that cross multiple biomes within a small area. Moreover, it is impossible to match the sampled camera distribution to that of internet photos when randomly sampling views from the neural rendering model.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div style="width: 3em;">
+                <p class="vert">No pseudo-ground truth</p>
+            </div>
+            <img src="images/nopseudo/00041.png" style="width: 22%;margin-bottom: 8px;">
+            <img src="images/nopseudo/00129.png" style="width: 22%;margin-bottom: 8px;">
+            <img src="images/nopseudo/00461.png" style="width: 22%;margin-bottom: 8px;">
+            <img src="images/nopseudo/01069.png" style="width: 22%;margin-bottom: 8px;">
+        </div>
+        <div class="row">
+            <div style="width: 3em;">
+                <p class="vert"><b>W/ pseudo-ground truth</b></p>
+            </div>
+            <img src="images/gancraft/00041.png" style="width: 22%;margin-bottom: 8px;">
+            <img src="images/gancraft/00046.png" style="width: 22%;margin-bottom: 8px;">
+            <img src="images/gancraft/00461.png" style="width: 22%;margin-bottom: 8px;">
+            <img src="images/gancraft/01069.png" style="width: 22%;margin-bottom: 8px;">
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <p>
+                    As shown in the first row, adversarial training using internet photos leads to unrealistic results, due to the complexity of the task.
+                    Producing and using <i>pseudo-ground truths</i> for training is one of the main contributions of our work, and significantly improves the result (second row).
+                </p>
+
+                <img class="mx-auto d-block" src="images/pgt_generation_optimized.svg" style="width: 70%;margin-bottom: 8px;">
+                <p class="caption text-center">Generating pseudo-ground truths</p>
+
+                <p>The pseudo-ground truths are the photorealistic images generated from segmentation masks using a pretrained <a href='https://nvlabs.github.io/SPADE/' target='_blank'>SPADE</a> model. As the segmentation masks are sampled from the block world, the pseudo-ground truths share the same labels and camera poses as the images generated from the same views. This not only reduces label and camera distribution mismatch, but also allows us to use stronger losses, such as the perceptual and L<sub>2</sub> loss, for faster and more stable training.</p>
+            </div>
+        </div>
+
+
+        <!-- Hybird Voxel-conditional Neural Rendering -->
+        <div class="row">
+            <div class="col-md-12">
+                <hr style="max-width: 768px;">
+                <h5 class="text-center">Hybird Voxel-conditional Neural Rendering</h5>
+                <p>In GANcraft, we represent the photorealistic scene with a combination of 3D volumetric renderer and 2D image space renderer. We define a voxel-bounded neural radiance field: given a block world, we assign a learnable feature vector to every corner of the blocks, and use trilinear interpolation to define the location code at arbitrary locations within a voxel. A radiance field can then be defined implicitly using an MLP, which takes the location code, semantic label, and a shared style code as input and produces a point feature (similar to radiance) and its volume density. Given camera parameters, we render the radiance field to obtain a 2D feature map, which is converted to an image via a CNN.</p>
+                <img class="mx-auto d-block" src="images/pipeline_overview_w_skydome_optimized.svg" style="width: 100%;margin-bottom: 8px;">
+                <p class="caption text-center">The complete GANcraft architecture</p>
+                The two-stage architecture significantly improves the image quality while reducing the computation and memory footprint, as the radiance field can be modeled with a simpler MLP, which is the computational bottleneck for implicit volume based methods. The proposed architecture is capable of handling very large worlds. In our experiments, we use voxel grids with a size of 512&times;512&times;256, which is equivalent to 65 acres or 32 soccer fields in the real world.
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <hr style="max-width: 768px;">
+                <h5 class="text-center">Neural Sky Dome</h5>
+                <p>Previous voxel-based neural rendering approaches cannot model sky that is infinitely far away. However, sky is an indispensable ingredient for photorealism. In GANcraft, we use an additional MLP to model sky. The MLP converts the camera ray direction to a feature vector which has the same dimension as the point features from the radiance field. This feature vector serves as the totally opaque, final sample on a ray, blending into the pixel feature according to the residual transmittance of the ray.</p>
+            </div>
+        </div>
+
+
+        <!-- Style -->
+        <div class="row">
+            <div class="col-md-12">
+                <hr style="max-width: 768px;">
+                <h5 class="text-center">Generating Images with Diversified Appearance</h5>
+                <p>The generation process of GANcraft is conditional on a style image. During training, we use the pseudo-ground truth as the style image, which helps explain away the inconsistency between the generated image and its corresponding pseudo-ground truth for the reconstruction loss. During evaluation, we can control the output style by providing GANcraft with different style images. In the example below, we linearly interpolate the style code across 6 different style images.</p>
+                <div class="embed-responsive embed-responsive-16by9" style="margin: 0;width: 100%;">
+                    <video  controls autoplay muted loop class="embed-responsive-item">
+                        <source src="videos/interp_small.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <p class="caption text-center">Interpolation between multiple styles</p>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Outputs. -->
+    <hr style="max-width: 768px;">
+    <div class="container" style="max-width: 768px;">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Additional Results</h2>
+            </div>
+        </div>
+        <div id="videoGallery" class="carousel slide" data-interval="false" data-ride="carousel">
+            <ol class="carousel-indicators hidden">
+                <li data-target="#videoGallery" data-slide-to="0" class="active"></li>
+                <li data-target="#videoGallery" data-slide-to="1"></li>
+                <li data-target="#videoGallery" data-slide-to="2"></li>
+                <li data-target="#videoGallery" data-slide-to="3"></li>
+                <li data-target="#videoGallery" data-slide-to="4"></li>
+                <li data-target="#videoGallery" data-slide-to="5"></li>
+                <li data-target="#videoGallery" data-slide-to="6"></li>
+                <li data-target="#videoGallery" data-slide-to="7"></li>
+                <li data-target="#videoGallery" data-slide-to="8"></li>
+                <li data-target="#videoGallery" data-slide-to="9"></li>
+                <li data-target="#videoGallery" data-slide-to="10"></li>
+                <li data-target="#videoGallery" data-slide-to="11"></li>
+                <li data-target="#videoGallery" data-slide-to="12"></li>
+            </ol>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <video controls muted autoplay playsinline class="d-block w-85 mx-auto embed-responsive-item">
+                        <source src="videos/extras/0015_2.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="carousel-item">
+                    <video controls muted autoplay playsinline class="d-block w-85 mx-auto embed-responsive-item">
+                        <source src="videos/extras/0013_3.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="carousel-item">
+                    <video controls muted autoplay playsinline class="d-block w-85 mx-auto embed-responsive-item">
+                        <source src="videos/extras/0019_0.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="carousel-item">
+                    <video controls muted autoplay playsinline class="d-block w-85 mx-auto embed-responsive-item">
+                        <source src="videos/extras/0366_4.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="carousel-item">
+                    <video controls muted autoplay playsinline class="d-block w-85 mx-auto embed-responsive-item">
+                        <source src="videos/extras/1249_4.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="carousel-item">
+                    <video controls muted autoplay playsinline class="d-block w-85 mx-auto embed-responsive-item">
+                        <source src="videos/extras/1251_0.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="carousel-item">
+                    <video controls muted autoplay playsinline class="d-block w-85 mx-auto embed-responsive-item">
+                        <source src="videos/extras/2151_3.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="carousel-item">
+                    <video controls muted autoplay playsinline class="d-block w-85 mx-auto embed-responsive-item">
+                        <source src="videos/extras/2173_2.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="carousel-item">
+                    <video controls muted autoplay playsinline class="d-block w-85 mx-auto embed-responsive-item">
+                        <source src="videos/extras/2209_0.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="carousel-item">
+                    <video controls muted autoplay playsinline class="d-block w-85 mx-auto embed-responsive-item">
+                        <source src="videos/extras/3052_0.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="carousel-item">
+                    <video controls muted autoplay playsinline class="d-block w-85 mx-auto embed-responsive-item">
+                        <source src="videos/extras/4029_2.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="carousel-item">
+                    <video controls muted autoplay playsinline class="d-block w-85 mx-auto embed-responsive-item">
+                        <source src="videos/extras/4069_2.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="carousel-item">
+                    <video controls muted autoplay playsinline class="d-block w-85 mx-auto embed-responsive-item">
+                        <source src="videos/extras/4091_0.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+            <a class="carousel-control-prev" href="#videoGallery" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#videoGallery" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Summary. -->
+    <hr style="max-width: 768px;">
+    <div class="container" style="max-width: 768px;" id="Summary">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Summary</h2>
+                <ul>
+                    <li>GANcraft is a powerful tool for converting semantic block worlds to photorealistic worlds without the need for ground truth data.</li>
+                    <li>Existing methods perform poorly on the task due to the lack of viewpoint consistency and photorealism.</li>
+                    <li>GANcraft performs well in this challenging world-to-world setting where the ground truth is unavailable and the distribution mismatch between a Minecraft world and internet photos is significant.</li>
+                    <li>We introduce a new training scheme which uses pseudo-ground truth. This improves the quality of the results significantly.</li>
+                    <li>We introduce a hybrid neural rendering pipeline which is able to represent large and complex scenes efficiently.</li>
+                    <li>We are able to control the appearance of the GANcraft results by using style-conditioning images.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Citation. -->
+    <hr style="max-width: 768px;">
+    <div class="container" style="max-width: 768px;">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Citation</h2>
+            </div>
+        </div>
+        <div class="code-box-copy"  style="font-size: 0.9rem !important; max-width: 768px; margin: 0 auto;">
+            <button class="code-box-copy__btn" data-clipboard-target="#citation" title="Copy" style="opacity: 1;"></button>
+<pre><code class="language-bib" style="font-size: 0.9rem;" id="citation">@article{gancraft_arxiv,
+    title={{GANcraft: Unsupervised 3D Neural Rendering of Minecraft Worlds}},
+    author={Zekun Hao and Arun Mallya and Serge Belongie and Ming-Yu Liu},
+    journal={arXiv preprint arXiv:},
+    year={2021}
+}</code></pre>
+        </div>
+    </div>
+
+
+    <footer class="text-muted">
+        <div class="container">
+            <p class="float-right">
+                <a href="#">Back to top</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/combine/gh/jablonczay/code-box-copy/clipboard/clipboard.min.js,gh/jablonczay/code-box-copy/code-box-copy/js/code-box-copy.min.js"></script>
+    <script src="https://saswatpadhi.github.io/prismjs-bibtex/prism-bibtex.min.js"></script>
+    <script>
+        (function($) {
+            $('.code-box-copy').codeBoxCopy();
+        })(jQuery);
+    </script>
+  </body>
+</html>
