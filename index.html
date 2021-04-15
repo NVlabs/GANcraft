@@ -63,6 +63,28 @@
             margin-bottom: 5px;
             font-weight: bold;
         }
+        
+        .carousel .carousel-indicators li {
+            width: 10px;
+            height: 10px;
+            border-radius: 100%;
+        }
+        .carousel .carousel-indicators { visibility: hidden; }
+        .carousel:hover .carousel-indicators { visibility: visible; }
+        
+        .w-85 {
+            width: 85%!important;
+        }
+        /*#videoGallery {
+            margin-left: 50px;
+            margin-right: 50px;
+        }*/
+        .carousel-control-prev,
+        .carousel-control-next{
+            width: 7%;
+            filter: invert(100%);
+        }
+
     </style>
   </head>
 
@@ -338,8 +360,8 @@
                 <h2>Additional Results</h2>
             </div>
         </div>
-        <div id="videoGallery" class="carousel slide" data-ride="carousel">
-            <ol class="carousel-indicators">
+        <div id="videoGallery" class="carousel slide" data-interval="false" data-ride="carousel">
+            <ol class="carousel-indicators hidden">
                 <li data-target="#videoGallery" data-slide-to="0" class="active"></li>
                 <li data-target="#videoGallery" data-slide-to="1"></li>
                 <li data-target="#videoGallery" data-slide-to="2"></li>
@@ -356,71 +378,79 @@
             </ol>
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <video controls muted class="d-block w-100 embed-responsive-item">
+                    <video controls muted class="d-block w-85 mx-auto embed-responsive-item">
                         <source src="videos/extras/0015_2.mp4" type="video/mp4">
                     </video>
                 </div>
                 <div class="carousel-item">
-                    <video controls muted class="d-block w-100 embed-responsive-item">
+                    <video controls muted class="d-block w-85 mx-auto embed-responsive-item">
                         <source src="videos/extras/0013_3.mp4" type="video/mp4">
                     </video>
                 </div>
                 <div class="carousel-item">
-                    <video controls muted class="d-block w-100 embed-responsive-item">
+                    <video controls muted class="d-block w-85 mx-auto embed-responsive-item">
                         <source src="videos/extras/0019_0.mp4" type="video/mp4">
                     </video>
                 </div>
                 <div class="carousel-item">
-                    <video controls muted class="d-block w-100 embed-responsive-item">
+                    <video controls muted class="d-block w-85 mx-auto embed-responsive-item">
                         <source src="videos/extras/0366_4.mp4" type="video/mp4">
                     </video>
                 </div>
                 <div class="carousel-item">
-                    <video controls muted class="d-block w-100 embed-responsive-item">
+                    <video controls muted class="d-block w-85 mx-auto embed-responsive-item">
                         <source src="videos/extras/1249_4.mp4" type="video/mp4">
                     </video>
                 </div>
                 <div class="carousel-item">
-                    <video controls muted class="d-block w-100 embed-responsive-item">
+                    <video controls muted class="d-block w-85 mx-auto embed-responsive-item">
                         <source src="videos/extras/1251_0.mp4" type="video/mp4">
                     </video>
                 </div>
                 <div class="carousel-item">
-                    <video controls muted class="d-block w-100 embed-responsive-item">
+                    <video controls muted class="d-block w-85 mx-auto embed-responsive-item">
                         <source src="videos/extras/2151_3.mp4" type="video/mp4">
                     </video>
                 </div>
                 <div class="carousel-item">
-                    <video controls muted class="d-block w-100 embed-responsive-item">
+                    <video controls muted class="d-block w-85 mx-auto embed-responsive-item">
                         <source src="videos/extras/2173_2.mp4" type="video/mp4">
                     </video>
                 </div>
                 <div class="carousel-item">
-                    <video controls muted class="d-block w-100 embed-responsive-item">
+                    <video controls muted class="d-block w-85 mx-auto embed-responsive-item">
                         <source src="videos/extras/2209_0.mp4" type="video/mp4">
                     </video>
                 </div>
                 <div class="carousel-item">
-                    <video controls muted class="d-block w-100 embed-responsive-item">
+                    <video controls muted class="d-block w-85 mx-auto embed-responsive-item">
                         <source src="videos/extras/3052_0.mp4" type="video/mp4">
                     </video>
                 </div>
                 <div class="carousel-item">
-                    <video controls muted class="d-block w-100 embed-responsive-item">
+                    <video controls muted class="d-block w-85 mx-auto embed-responsive-item">
                         <source src="videos/extras/4029_2.mp4" type="video/mp4">
                     </video>
                 </div>
                 <div class="carousel-item">
-                    <video controls muted class="d-block w-100 embed-responsive-item">
+                    <video controls muted class="d-block w-85 mx-auto embed-responsive-item">
                         <source src="videos/extras/4069_2.mp4" type="video/mp4">
                     </video>
                 </div>
                 <div class="carousel-item">
-                    <video controls muted class="d-block w-100 embed-responsive-item">
+                    <video controls muted class="d-block w-85 mx-auto embed-responsive-item">
                         <source src="videos/extras/4091_0.mp4" type="video/mp4">
                     </video>
                 </div>
             </div>
+            <a class="carousel-control-prev" href="#videoGallery" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#videoGallery" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
         </div>
     </div>
 
