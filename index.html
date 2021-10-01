@@ -278,7 +278,7 @@
             <div class="col-md-12">
                 Comparing the results from different methods, we can immediately notice a few issues:
                 <ul>
-                    <li>im2im methods such as <a href='https://arxiv.org/abs/1804.04732' target='_blank'>MUNIT</a> and <a href='https://nvlabs.github.io/SPADE/' target='_blank'>SPADE</a> does not preserve viewpoint consistency, as these methods have no knowledge of the 3D geometry, and each frame is generated independently.</li>
+                    <li>im2im methods such as <a href='https://arxiv.org/abs/1804.04732' target='_blank'>MUNIT</a> and <a href='https://nvlabs.github.io/SPADE/' target='_blank'>SPADE</a> do not preserve viewpoint consistency, as these methods have no knowledge of the 3D geometry, and each frame is generated independently.</li>
                     <li><a href='https://nvlabs.github.io/wc-vid2vid/' target='_blank'>wc-vid2vid</a> produces view-consistent video, but the image quality deterorates quickly with time due to error accumulation from blocky geometry and the train-test domain gap.</li>
                     <li>NSVF-W (our implementation of <a href='https://nerf-w.github.io/' target='_blank'>NeRF-W</a> with added <a href='https://lingjie0206.github.io/papers/NSVF/' target='_blank'>NSVF</a>-style voxel conditioning) produces view-consistent output as well, but the result looks dull and lacks fine detail.
                     </li>
@@ -503,10 +503,10 @@
         </div>
         <div class="code-box-copy"  style="font-size: 0.9rem !important; max-width: 768px; margin: 0 auto;">
             <button class="code-box-copy__btn" data-clipboard-target="#citation" title="Copy" style="opacity: 1;"></button>
-<pre><code class="language-bib" style="font-size: 0.9rem;" id="citation">@article{gancraft_arxiv,
+<pre><code class="language-bib" style="font-size: 0.9rem;" id="citation">@inproceedings{hao2021GANcraft,
     title={{GANcraft: Unsupervised 3D Neural Rendering of Minecraft Worlds}},
     author={Zekun Hao and Arun Mallya and Serge Belongie and Ming-Yu Liu},
-    journal={arXiv preprint arXiv:2104.07659},
+    booktitle={ICCV},
     year={2021}
 }</code></pre>
         </div>
